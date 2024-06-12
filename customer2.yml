@@ -1,0 +1,112 @@
+openapi: 3.0.3
+info:
+  title: Customer System
+  description: Customer System
+  version: 1.0.0
+  x-ibm-application-icon: <svg version="1.1" id="icon" xmlns="http://www.w3.orb/2000/svg">
+servers:
+  - url: http://127.0.0.1:4010
+
+paths:
+  /inquiryRanking/{rank}:
+    get: 
+      summary: 問い合わせランキングの表示
+      parameters:
+        - name: rank
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ok 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InquiryRanking"
+              example:
+                - ranking: 1
+                  inquiryType: "ペット"
+                - ranking: 2
+                  inquiryType: "地震"
+                - ranking: 3
+                  inquiryType: "がん"
+  /CustomerList/:
+    post: 
+      summary: 顧客リスト
+      parameters:
+        - name: inquiryType
+          in: query
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: ok
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerListByInquiry"
+              example:
+                - no: 1
+                  age: 33
+                  gender: male
+                  married: 0
+                  name: "山田太郎"
+                  inquiryType: "がん"
+                - no: 2
+                  age: 33
+                  gender: female
+                  married: 1
+                  name: "山田花子"
+                  inquiryType: "がん"
+                - no: 3
+                  age: 33
+                  gender: male
+                  married: 1
+                  name: "山田次郎"
+                  inquiryType: "がん"
+                - no: 4
+                  age: 33
+                  gender: female
+                  married: 1
+                  name: "山田花子"
+                  inquiryType: "がん"
+                - no: 5
+                  age: 33
+                  gender: male
+                  married: 1
+                  name: "山田次郎"
+                  inquiryType: "がん"
+components:
+  schemas:
+    InquiryRanking:
+      type: array
+      items:
+        type: object
+        properties:
+          ranking:
+            type: integer
+          inquiryType:
+            type: string
+    CustomerListByInquiry: 
+      type: array
+      items:
+        type: object
+        properties:
+          no:
+            type: integer 
+          age:
+            type: integer 
+          gender:
+            type: string
+          married:
+            type: integer
+          name: 
+            type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      
+
